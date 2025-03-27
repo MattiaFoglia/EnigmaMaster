@@ -1,95 +1,64 @@
 <?php
+session_start();
 include 'config.php';
 
-// Verifica delle credenziali
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];
+    $sql = "SELECT * FROM utenti WHERE email='$email'";
+    $result = mysqli_query($conn, $sql);
 
-    // Prepara la query per verificare l'email
-    $sql = "SELECT id, email, password FROM users WHERE email = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $email); // "s" sta per stringa (email)
-    $stmt->execute();
-    $result = $stmt->get_result();
+    if ($row = mysqli_fetch_assoc($result)) {
+        if (password_verify($password, $row['password'])) {
+            $_SESSION['utente_id'] = $row['id'];
+            $_SESSION['nome'] = $row['nome'];
+            header("Location: index.php");
+            $query = "SELECT id, nome, punteggio FROM utenti WHERE email = ? AND password = ?";
+            $stmt = $connessione->prepare($query);
+            $stmt->bind_param("ss", $email, $password);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
-    // Se l'utente esiste
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-
-        // Verifica della password
-        if ($password == $user['password']) {  // In un'applicazione reale dovresti usare password_hash() e password_verify()
-            $_SESSION['loggedin'] = true;
-            $_SESSION['email'] = $user['email'];
-            header('Location: dashboard.php'); // Redirect alla pagina successiva
-            exit();
+            if ($result->num_rows === 1) {
+                $row = $result->fetch_assoc();
+                $_SESSION['utente_id'] = $row['id'];
+                $_SESSION['nome'] = $row['nome'];
+                $_SESSION['punteggio'] = $row['punteggio']; // Riprende punteggio
+                header("Location: index.php");
+                exit();
+            }
         } else {
-            $error_message = "Password errata!";
+            $errore = "Password errata.";
         }
     } else {
-        $error_message = "Email non trovata!";
+        $errore = "Utente non trovato.";
     }
-
-    $stmt->close();
 }
-
-$conn->close();
 ?>
 
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - EnigmaMaster</title>
-    <!-- Link a Bootstrap CSS -->
+    <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">EnigmaMaster</a>
+<body class="bg-light">
+<div class="container mt-5">
+    <h2>Accedi a EnigmaMaster</h2>
+    <?php if (isset($errore)) echo "<div class='alert alert-danger'>$errore</div>"; ?>
+    <form method="POST">
+        <div class="mb-3">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" required>
         </div>
-    </nav>
-
-    <!-- Form di login -->
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Accedi al tuo account</h4>
-                    </div>
-                    <div class="card-body">
-                        <?php
-                        if (isset($error_message)) {
-                            echo "<div class='alert alert-danger'>$error_message</div>";
-                        }
-                        ?>
-                        <form action="login.php" method="POST">
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Accedi</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        <div class="mb-3">
+            <label>Password</label>
+            <input type="password" name="password" class="form-control" required>
         </div>
-    </div>
-
-    <!-- Link a Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <button type="submit" class="btn btn-dark">Login</button>
+        <a href="register.php" class="btn btn-link">Registrati</a>
+    </form>
+</div>
 </body>
 </html>
-<?php
-    mysqli_close ($connessione)
-    or die("Chiusura connessione fallita " . mysqli_error ($connessione));
-?>

@@ -7,7 +7,7 @@ include 'config.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnigmaMaster</title>
+    <title>Informazioni - EnigmaMaster</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -22,13 +22,13 @@ include 'config.php';
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link<?= basename($_SERVER['PHP_SELF']) == 'index.php' ? ' active' : '' ?>" href="index.php">Home</a>
+                    <a class="nav-link" href="index.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="leaderboard.php">Leaderboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="info.php">Informazioni</a>
+                    <a class="nav-link active" href="info.php">Informazioni</a>
                 </li>
 
                 <?php if (isset($_SESSION['utente_id'])): ?>
@@ -66,16 +66,20 @@ include 'config.php';
 </nav>
 
 <!-- Main Section -->
-<div class="container mt-5 text-center">
-    <h1 class="display-4">Benvenuto a EnigmaMaster!</h1>
-    <p class="lead">Entra nella sfida risolvendo enigmi e scoprendo il tesoro nascosto. Inizia subito la tua avventura.</p>
-
-    <?php if (isset($_SESSION['utente_id'])): ?>
-        <a href="gioco.php" class="btn btn-success btn-lg mt-3">Inizia a giocare</a>
-    <?php else: ?>
-        <a href="register.php" class="btn btn-primary btn-lg mt-3">Registrati per giocare</a>
-        <a href="gioco.php" class="btn btn-success btn-lg mt-3">Gioca come ospite</a>
-    <?php endif; ?>
+<div class="container mt-5">
+    <h1 class="mb-4">Informazioni sul gioco</h1>
+    <p class="lead">
+        <strong>EnigmaMaster</strong> è un gioco di logica e deduzione in cui i giocatori devono risolvere una serie di enigmi a difficoltà crescente.
+    </p>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Ogni livello presenta un enigma unico con tempo limitato per risolverlo.</li>
+        <li class="list-group-item">Accumula punti per ogni risposta corretta e scala la classifica!</li>
+        <li class="list-group-item">Puoi giocare come ospite, ma solo gli utenti registrati possono salvare i progressi e competere nella leaderboard.</li>
+        <li class="list-group-item">Nuovi enigmi vengono aggiunti regolarmente per mantenere la sfida sempre attiva.</li>
+    </ul>
+    <p class="mt-4">
+        Per iniziare a giocare, torna alla <a href="index.php">pagina principale</a> o <a href="register.php">registrati</a> subito!
+    </p>
 </div>
 
 <!-- Footer -->
@@ -88,7 +92,7 @@ include 'config.php';
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
 <?php
-mysqli_close($conn) or die("Chiusura connessione fallita: " . mysqli_error($conn));
+mysqli_close($conn) or die("Errore chiusura connessione: " . mysqli_error($conn));
 ?>
 </body>
 </html>

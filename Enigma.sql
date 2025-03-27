@@ -1,6 +1,7 @@
 -- Creazione del database
-CREATE DATABASE IF NOT EXISTS caccia_al_tesoro;
-USE caccia_al_tesoro;
+DROP DATABASE IF EXISTS Enigmi;
+CREATE DATABASE Enigmi;
+USE Enigmi;
 
 -- Tabella Utenti
 CREATE TABLE utenti (
@@ -28,7 +29,7 @@ CREATE TABLE enigmi (
 -- Tabella Tentativi (memorizza le risposte degli utenti)
 CREATE TABLE tentativi (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    utente_id INT NOT NULL,
+    utente_id INT,
     enigma_id INT NOT NULL,
     risposta VARCHAR(255) NOT NULL,
     esito BOOLEAN NOT NULL, -- 1 = corretto, 0 = sbagliato
