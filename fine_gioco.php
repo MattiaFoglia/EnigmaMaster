@@ -1,6 +1,9 @@
 <?php
 session_start();
 include 'config.php';
+$language = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'it'; // Usa la lingua della sessione, default è 'it'
+
+include("lang/lang_$language.php");
 
 $punteggio = null;  // Inizializza la variabile $punteggio per evitare l'errore di variabile non definita.
 
@@ -50,11 +53,12 @@ if (isset($_SESSION['utente_id'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="it">
+<html lang="<?= $language ?>">
 <head>
     <meta charset="UTF-8">
-    <title>Fine del Gioco</title>
+    <title><?= $lang['game_over'] ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css"> 
 </head>
 <body class="bg-light">
 
@@ -67,19 +71,18 @@ if (isset($_SESSION['utente_id'])) {
 
 <!-- Fine Gioco -->
 <div class="container text-center mt-5">
-    <h1 class="display-4">🎉 Complimenti!</h1>
-    <p class="lead">Hai completato il gioco.</p>
+    <h1 class="display-4"><?= $lang['congratulations'] ?></h1>
+    <p class="lead"><?= $lang['completed_game'] ?></p>
 
     <?php if ($punteggio !== null): ?>
-        <p class="fs-4">Il tuo punteggio finale è: <strong><?= $punteggio ?></strong></p>
+        <p class="fs-4"><?= $lang['final_score'] ?> <strong><?= $punteggio ?></strong></p>
     <?php else: ?>
-        <p class="fs-5">Grazie per aver giocato!</p>
+        <p class="fs-5"><?= $lang['thanks_for_playing'] ?></p>
     <?php endif; ?>
 
     <div class="mt-4">
-        <a href="index.php" class="btn btn-primary">Torna alla Home</a>
-        <a href="leaderboard.php" class="btn btn-secondary">Visualizza Classifica</a>
-        <a href="gioco.php" class="btn btn-success">Riprova</a>
+        <a href="index.php" class="btn btn-primary"><?= $lang['back_home'] ?></a>
+        <a href="leaderboard.php" class="btn btn-secondary"><?= $lang['view_leaderboard'] ?></a>
     </div>
 </div>
 
@@ -87,6 +90,8 @@ if (isset($_SESSION['utente_id'])) {
 <footer class="bg-dark text-white text-center py-3 mt-5">
     <p>&copy; 2025 EnigmaMaster</p>
 </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
 </body>
 </html>

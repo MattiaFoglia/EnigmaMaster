@@ -1,6 +1,10 @@
 <?php
 session_start();
-include 'config.php';
+include("config.php"); // Ensure the connection is initialized
+
+// Load the language file
+$language = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'it'; // Default to 'it' if not set
+include("lang/lang_$language.php");
 
 if (isset($_GET['id'])) {
     $id_enigma = (int)$_GET['id'];
@@ -15,12 +19,13 @@ if (isset($_GET['id'])) {
 }
 
 if (!$result || $result->num_rows === 0) {
-    echo "Nessun enigma disponibile al momento.";
+    echo $lang['no_enigma_available']; // Display the no enigma available message
     exit();
 }
 
 $enigma = $result->fetch_assoc();
 
+// Initialize session variables for the current puzzle and attempts if necessary
 if (!isset($_SESSION['enigma_corrente']) || $_SESSION['enigma_corrente'] !== $enigma['id']) {
     $_SESSION['tentativi'] = 3;
     $_SESSION['enigma_corrente'] = $enigma['id'];
@@ -28,10 +33,10 @@ if (!isset($_SESSION['enigma_corrente']) || $_SESSION['enigma_corrente'] !== $en
 ?>
 
 <!DOCTYPE html>
-<html lang="it">
+<html lang="<?= $language ?>">
 <head>
     <meta charset="UTF-8">
-    <title>Gioca - EnigmaMaster</title>
+    <title><?= $lang['play_game_title'] ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         #suggerimento-box {
@@ -42,32 +47,32 @@ if (!isset($_SESSION['enigma_corrente']) || $_SESSION['enigma_corrente'] !== $en
 </head>
 <body>
 <div class="container mt-5">
-    <h2><?php echo htmlspecialchars($enigma['titolo']); ?></h2>
-    <p class="lead"><?php echo htmlspecialchars($enigma['descrizione']); ?></p>
+    <h2><?= htmlspecialchars($enigma['titolo']) ?></h2>
+    <p class="lead"><?= htmlspecialchars($enigma['descrizione']) ?></p>
 
     <?php if (isset($_GET['errore']) && $_GET['errore'] == 1): ?>
-        <div class="alert alert-danger">Risposta errata. Riprova!</div>
+        <div class="alert alert-danger"><?= $lang['wrong_answer'] ?></div>
     <?php endif; ?>
 
-    <p><strong>Tentativi rimasti:</strong> <?php echo $_SESSION['tentativi'] ?? 3; ?></p>
+    <p><strong><?= $lang['attempts_left'] ?>:</strong> <?= $_SESSION['tentativi'] ?? 3 ?></p>
 
     <form method="POST" action="risposta.php">
-        <input type="hidden" name="id_enigma" value="<?php echo $enigma['id']; ?>">
+        <input type="hidden" name="id_enigma" value="<?= $enigma['id'] ?>">
         <div class="mb-3">
-            <label for="risposta" class="form-label">La tua risposta</label>
+            <label for="risposta" class="form-label"><?= $lang['your_answer'] ?></label>
             <input type="text" class="form-control" id="risposta" name="risposta" required>
         </div>
-        <button type="submit" class="btn btn-primary">Invia</button>
+        <button type="submit" class="btn btn-primary"><?= $lang['submit_button'] ?></button>
     </form>
 
-    <!-- Bottone per mostrare suggerimento -->
-    <button class="btn btn-secondary mt-3" onclick="mostraIndizio()">Mostra Indizio</button>
+    <!-- Button to show hint -->
+    <button class="btn btn-secondary mt-3" onclick="mostraIndizio()"><?= $lang['show_hint'] ?></button>
     <div id="suggerimento-box" class="alert alert-info">
-        <strong>Indizio:</strong> <?php echo htmlspecialchars($enigma['suggerimento']); ?>
+        <strong><?= $lang['hint'] ?></strong> <?= htmlspecialchars($enigma['suggerimento']) ?>
     </div>
 
     <hr>
-    <p>Punteggio attuale: <strong><?php echo $_SESSION['punteggio'] ?? 0; ?></strong></p>
+    <p><?= $lang['score'] ?>: <strong><?= $_SESSION['punteggio'] ?? 0 ?></strong></p>
 </div>
 
 <script>

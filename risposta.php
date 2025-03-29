@@ -34,9 +34,18 @@ if ($risposta_utente === $risposta_corretta) {
 
     // Aggiorna DB se loggato
     if (isset($_SESSION['utente_id'])) {
-        $stmt = $conn->prepare("UPDATE utenti SET punteggio = ? WHERE id = ?");
-        $stmt->bind_param("ii", $_SESSION['punteggio'], $_SESSION['utente_id']);
+        // Aggiorna il punteggio massimo nel DB, se necessario
+        $stmt = $conn->prepare("SELECT punteggio FROM utenti WHERE id = ?");
+        $stmt->bind_param("i", $_SESSION['utente_id']);
         $stmt->execute();
+        $userResult = $stmt->get_result();
+        $user = $userResult->fetch_assoc();
+
+        if ($_SESSION['punteggio'] > $user['punteggio']) {
+            $stmt = $conn->prepare("UPDATE utenti SET punteggio = ? WHERE id = ?");
+            $stmt->bind_param("ii", $_SESSION['punteggio'], $_SESSION['utente_id']);
+            $stmt->execute();
+        }
     }
 
     // Reset per il prossimo enigma
@@ -53,6 +62,7 @@ if ($risposta_utente === $risposta_corretta) {
         $next = $result->fetch_assoc();
         header("Location: gioco.php?id=" . $next['id']);
     } else {
+        // Se non ci sono più enigmi, vai alla pagina di game over
         header("Location: fine_gioco.php");
     }
     exit();
@@ -62,17 +72,28 @@ if ($risposta_utente === $risposta_corretta) {
 $_SESSION['tentativi']--;
 
 if ($_SESSION['tentativi'] <= 0) {
-    $_SESSION['punteggio'] = 0;
-
+    // Salva il punteggio massimo ottenuto nella sessione prima di resettarlo
     if (isset($_SESSION['utente_id'])) {
-        $stmt = $conn->prepare("UPDATE utenti SET punteggio = 0 WHERE id = ?");
+        $stmt = $conn->prepare("SELECT punteggio FROM utenti WHERE id = ?");
         $stmt->bind_param("i", $_SESSION['utente_id']);
         $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+
+        // Salva il punteggio massimo solo se il punteggio attuale è maggiore di quello nel DB
+        if ($_SESSION['punteggio'] > $user['punteggio']) {
+            $stmt = $conn->prepare("UPDATE utenti SET punteggio = ? WHERE id = ?");
+            $stmt->bind_param("ii", $_SESSION['punteggio'], $_SESSION['utente_id']);
+            $stmt->execute();
+        }
     }
 
+    // Resetta il punteggio e i tentativi
+    $_SESSION['punteggio'] = 0;
     unset($_SESSION['tentativi']);
     unset($_SESSION['enigma_corrente']);
 
+    // Redirige alla pagina game over
     header("Location: gameOver.php");
     exit();
 } else {
