@@ -1,87 +1,92 @@
 <?php
 session_start();
-include 'config.php'; // Connessione al database
+include 'config.php';
 
-// Controllo se l'utente è già loggato
 if (isset($_SESSION['utente_id'])) {
-    header("Location: index.php"); // Se già loggato, redirigi alla home
+    header("Location: index.php");
     exit();
 }
 
-// Se il metodo di richiesta è POST
+$language = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'it';
+include("lang/lang_$language.php");
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Prevenzione di SQL Injection
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];
 
-    // Query per cercare l'utente con l'email fornita
-    $sql = "SELECT * FROM utenti WHERE email='$email'";
-    $result = mysqli_query($conn, $sql);
+    $sql = "SELECT id, nome, email, password, punteggio FROM utenti WHERE email = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if ($row = mysqli_fetch_assoc($result)) {
-        // Verifica della password
+    if ($row = $result->fetch_assoc()) {
         if (password_verify($password, $row['password'])) {
-            // Impostazione delle variabili di sessione
             $_SESSION['utente_id'] = $row['id'];
             $_SESSION['nome'] = $row['nome'];
-            $_SESSION['punteggio'] = $row['punteggio']; // Riprendi punteggio
-
-            // Redirect alla home page
+            $_SESSION['punteggio'] = $row['punteggio'];
+            
             header("Location: index.php");
             exit();
         } else {
-            // Se la password è errata
-            $errore = "Password errata. Riprova.";
+            $_SESSION['error'] = $lang['wrong_password'];
         }
     } else {
-        // Se l'utente non è trovato
-        $errore = "Utente non trovato. Assicurati di aver inserito l'email correttamente.";
+        $_SESSION['error'] = $lang['user_not_found'];
     }
 }
-
-// Se la lingua è passata via GET, carica quella lingua (italiano predefinito)
-$lang = isset($_GET['lang']) && $_GET['lang'] == 'en' ? 'en' : 'it';
 ?>
 
 <!DOCTYPE html>
-<html lang="<?= $lang; ?>">
-
+<html lang="<?= $language ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $lang == 'en' ? 'Login to EnigmaMaster' : 'Accedi a EnigmaMaster'; ?></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title><?= $lang['login'] ?> - EnigmaMaster</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
 </head>
+<body>
+    <?php include 'components/navbar.php'; ?>
 
-<body class="bg-light">
-    <div class="container mt-5">
-        <h2><?= $lang == 'en' ? 'Login to EnigmaMaster' : 'Accedi a EnigmaMaster'; ?></h2>
+    <main class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="mb-0"><?= $lang['login'] ?></h2>
+                    </div>
+                    <div class="card-body">
+                        <?php if (isset($_SESSION['error'])): ?>
+                            <div class="alert alert-danger">
+                                <?= $_SESSION['error'] ?>
+                            </div>
+                            <?php unset($_SESSION['error']); ?>
+                        <?php endif; ?>
 
-        <?php if (isset($errore)): ?>
-            <div class="alert alert-danger">
-                <?= htmlspecialchars($errore); ?>
+                        <form method="POST">
+                            <div class="mb-3">
+                                <label for="email" class="form-label"><?= $lang['login_email'] ?></label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label"><?= $lang['login_password'] ?></label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100"><?= $lang['login_button'] ?></button>
+                        </form>
+
+                        <div class="mt-3 text-center">
+                            <a href="register.php"><?= $lang['no_account'] ?></a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        <?php endif; ?>
-
-        <form method="POST">
-            <div class="mb-3">
-                <label for="email" class="form-label"><?= $lang == 'en' ? 'Email' : 'Email'; ?></label>
-                <input type="email" name="email" id="email" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label"><?= $lang == 'en' ? 'Password' : 'Password'; ?></label>
-                <input type="password" name="password" id="password" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-dark"><?= $lang == 'en' ? 'Login' : 'Login'; ?></button>
-            <a href="register.php" class="btn btn-link"><?= $lang == 'en' ? 'Register' : 'Registrati'; ?></a>
-        </form>
-
-        <div class="mt-3">
-            <a href="?lang=it" class="btn btn-link">Italiano</a> | 
-            <a href="?lang=en" class="btn btn-link">English</a>
         </div>
-    </div>
-</body>
+    </main>
 
+    <?php include 'components/footer.php'; ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
+<?php $conn->close(); ?>
