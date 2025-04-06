@@ -1,42 +1,52 @@
 <?php
+/**
+ * Handles answer submission and scoring
+ * 
+ * @package GameLogic
+ * @author Mattia Foglia
+ * @since 2025-03-15
+ * @version 1.3.0
+ * @link https://www.php.net/manual/en/function.preg-replace.php
+ */
 session_start();
 require_once 'config.php';
-
-// Impostazione lingua
 $language = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'it';
 require_once "lang/lang_$language.php";
 
-// Verifica dati fondamentali
 if (!isset($_POST['risposta'], $_POST['enigma_id'], $_SESSION['enigma_api'])) {
     $_SESSION['error'] = $lang['missing_data'];
     header("Location: gioco.php");
     exit();
 }
 
-// Verifica corrispondenza enigma
 if ($_POST['enigma_id'] !== $_SESSION['enigma_api']['id']) {
     $_SESSION['error'] = $lang['invalid_riddle'];
     header("Location: gioco.php");
     exit();
 }
 
-// Normalizzazione risposte
 $user_answer = normalizeAnswer($_POST['risposta']);
 $correct_answer = normalizeAnswer($_SESSION['enigma_api']['correct_answer']);
 
-// Funzione di normalizzazione
+/**
+ * Normalizes answer strings for comparison
+ * 
+ * @param string $answer The answer to normalize
+ * @return string Normalized answer
+ */
 function normalizeAnswer($answer) {
     return preg_replace('/[^a-z0-9]/', '', strtolower(trim($answer)));
 }
 
-// Verifica risposta
 if ($user_answer === $correct_answer) {
     handleCorrectAnswer();
 } else {
     handleWrongAnswer();
 }
 
-// Gestione risposta corretta
+/**
+ * Handles wrong answer scenario
+ */
 function handleCorrectAnswer() {
     global $conn, $lang;
     

@@ -1,4 +1,14 @@
 <?php
+/**
+ * Pagina principale di gioco con le domande
+ * 
+ * @package Views
+ * @author Mattia Foglia
+ * @since 2025-03-15
+ * @version 1.3.0
+ * @link https://getbootstrap.com/docs/5.3/forms/overview/
+ */
+
 session_start();
 include 'config.php';
 include 'api.php';

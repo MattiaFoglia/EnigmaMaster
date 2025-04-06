@@ -1,4 +1,13 @@
 <?php
+/**
+ * Pagina informativa con le regole del gioco
+ * 
+ * @package Views
+ * @author Mattia Foglia
+ * @since 2025-03-15
+ * @version 1.1.0
+ * @link https://getbootstrap.com/docs/5.3/components/card/
+ */
 session_start();
 include 'config.php';
 $language = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'it';

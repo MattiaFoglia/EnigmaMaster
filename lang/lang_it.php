@@ -1,4 +1,17 @@
 <?php
+/**
+ * File di localizzazione in italiano
+ * 
+ * @package Translations
+ * @author Mattia Foglia
+ * @since 2025-03-15
+ * @version 1.0.1
+ * @link https://www.php.net/manual/en/book.gettext.php
+ */
+
+/**
+ * @var array $lang Array associativo con tutte le traduzioni
+ */
 $lang = [
     // Common
     'home' => 'Home',

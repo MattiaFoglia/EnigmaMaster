@@ -1,4 +1,14 @@
 <?php
+/**
+ * Pagina di login per gli utenti registrati
+ * 
+ * @package Authentication
+ * @author Mattia Foglia
+ * @since 2025-03-15
+ * @version 1.2.0
+ * @link https://getbootstrap.com/docs/5.3/forms/overview/
+ * @link https://www.php.net/manual/en/function.password-verify.php
+ */
 session_start();
 include 'config.php';
 
@@ -10,6 +20,12 @@ if (isset($_SESSION['utente_id'])) {
 $language = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'it';
 include("lang/lang_$language.php");
 
+
+/**
+ * Processa il form di login quando inviato
+ * 
+ * @throws mysqli_sql_exception Se ci sono errori nel database
+ */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];

@@ -1,4 +1,13 @@
 <?php
+/**
+ * Pagina di game over quando il giocatore esaurisce i tentativi
+ * 
+ * @package Views
+ * @author Mattia Foglia
+ * @since 2025-03-15
+ * @version 1.1.0
+ * @link https://getbootstrap.com/docs/5.3/components/alerts/
+ */
 session_start();
 $language = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'it'; // Usa la lingua della sessione, default è 'it'
 

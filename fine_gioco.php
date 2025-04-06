@@ -1,4 +1,14 @@
 <?php
+/**
+ * Pagina di fine gioco con risultati finali
+ * 
+ * @package Views
+ * @author Mattia Foglia
+ * @since 2025-03-15
+ * @version 1.2.0
+ * @link https://getbootstrap.com/docs/5.3/components/card/
+ */
+
 session_start();
 include 'config.php';
 $language = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'it';

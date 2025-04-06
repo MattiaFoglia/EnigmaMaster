@@ -1,3 +1,14 @@
+<?php
+/**
+ * Piè di pagina dell'applicazione
+ * 
+ * @package Views
+ * @author Mattia Foglia
+ * @since 2025-03-15
+ * @version 1.1.0
+ * @link https://getbootstrap.com/docs/5.3/components/footer/
+ */
+?>
 <footer class="bg-dark text-white py-4 mt-5">
     <div class="container">
         <div class="row">

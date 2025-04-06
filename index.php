@@ -1,4 +1,13 @@
 <?php
+/**
+ * Homepage dell'applicazione EnigmaMaster
+ * 
+ * @package Views
+ * @author Mattia Foglia
+ * @since 2025-03-15
+ * @version 1.0.0
+ * @link https://getbootstrap.com/docs/5.3/examples/heroes/
+ */
 session_start();
 include 'config.php';
 $language = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'it';

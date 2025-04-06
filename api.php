@@ -1,4 +1,20 @@
 <?php
+/**
+ * Funzioni per l'interazione con l'API Open Trivia Database
+ * 
+ * @package API
+ * @author Mattia Foglia
+ * @since 2025-03-15
+ * @version 1.0.0
+ * @link https://opentdb.com/api_config.php
+ */
+
+/**
+ * Ottiene le categorie di quiz dall'API Open Trivia Database
+ * 
+ * @return array Array associativo di categorie (id => nome) ordinate per nome
+ * @throws RuntimeException Se la richiesta API fallisce
+ */
 function ottieniCategorieAPI() {
     $api_url = 'https://opentdb.com/api_category.php';
     
@@ -75,13 +91,19 @@ function ottieniCategorieAPI() {
     foreach ($data['trivia_categories'] as $category) {
         $categories[$category['id']] = $category['name'];
     }
-    
-    // Ordina le categorie per nome
+
     asort($categories);
     
     return $categories;
 }
 
+/**
+ * Ottiene un singolo enigma dall'API Open Trivia Database
+ * 
+ * @param int|null $category ID della categoria (opzionale)
+ * @return array|null Dati dell'enigma o null in caso di errore
+ * @throws InvalidArgumentException Se il parametro category non è valido
+ */
 function ottieniEnigmaAPI($category = null) {
     $api_url = 'https://opentdb.com/api.php?amount=1&type=multiple&encode=url3986';
     

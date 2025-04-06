@@ -1,16 +1,31 @@
 <?php
+
+/**
+ * Termina la sessione corrente
+ * 
+ * @uses session_unset() Rimuove tutte le variabili di sessione
+ * @uses session_destroy() Distrugge completamente la sessione
+ */
+
 session_start();
 include 'config.php';
 
 $language = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'it';
 include("lang/lang_$language.php");
 
+
+/**
+ * Termina la sessione corrente
+ * 
+ * @uses session_unset() Rimuove tutte le variabili di sessione
+ * @uses session_destroy() Distrugge completamente la sessione
+ */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = mysqli_real_escape_string($conn, $_POST['nome']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    // Verifica email esistente
+
     $stmt = $conn->prepare("SELECT id FROM utenti WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();

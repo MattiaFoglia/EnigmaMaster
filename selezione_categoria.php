@@ -1,4 +1,14 @@
 <?php
+/**
+ * Category selection page for the game
+ * 
+ * @package Views
+ * @author Mattia Foglia
+ * @since 2025-03-15
+ * @version 1.2.0
+ * @link https://getbootstrap.com/docs/5.3/forms/radio-buttons/
+ * @link https://icons.getbootstrap.com/
+ */
 session_start();
 include 'config.php';
 include 'api.php';
@@ -90,11 +100,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['categoria'])) {
 
     <?php include 'components/footer.php'; ?>
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Aggiunge feedback visivo alla selezione
         document.querySelectorAll('.category-radio').forEach(radio => {
             radio.addEventListener('change', function() {
                 document.querySelectorAll('.category-card').forEach(card => {

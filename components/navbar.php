@@ -1,3 +1,15 @@
+<?php
+/**
+ * Barra di navigazione principale dell'applicazione
+ * 
+ * @package Views
+ * @author Mattia Foglia
+ * @since 2025-03-15
+ * @version 1.2.0
+ * @link https://getbootstrap.com/docs/5.3/components/navbar/
+ */
+?>
+    
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-bold" href="index.php">EnigmaMaster</a>

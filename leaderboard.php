@@ -1,4 +1,13 @@
 <?php
+/**
+ * Pagina della classifica dei migliori giocatori
+ * 
+ * @package Views
+ * @author Mattia Foglia
+ * @since 2025-03-15
+ * @version 1.2.0
+ * @link https://getbootstrap.com/docs/5.3/content/tables/
+ */
 session_start();
 $language = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'it';
 include("lang/lang_$language.php");
