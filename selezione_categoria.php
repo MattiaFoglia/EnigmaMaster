@@ -26,37 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['categoria'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
-    <style>
-        .category-card {
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid #dee2e6;
-            height: 100%;
-        }
-        
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            border-color: var(--primary-color);
-        }
-        
-        .category-radio {
-            position: absolute;
-            opacity: 0;
-        }
-        
-        .category-radio:checked + .category-card {
-            border-color: var(--primary-color);
-            background-color: rgba(78, 115, 223, 0.05);
-            box-shadow: 0 5px 15px rgba(78, 115, 223, 0.2);
-        }
-        
-        .category-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-    </style>
 </head>
 <body>
     <?php include 'components/navbar.php'; ?>
@@ -85,13 +54,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['categoria'])) {
                                                     <div class="category-icon">
                                                         <?php 
                                                         // Icone diverse per categorie diverse
-                                                        $icon = match(true) {
-                                                            str_contains($name, 'Science') => 'bi bi-robot',
-                                                            str_contains($name, 'Entertainment') => 'bi bi-film',
-                                                            str_contains($name, 'Art') => 'bi bi-palette',
-                                                            str_contains($name, 'History') => 'bi bi-hourglass',
-                                                            default => 'bi bi-question-circle'
-                                                        };
+                                                       $icon = 'bi bi-question-circle'; // Default
+                                                        if (strpos($name, 'Science') !== false) {
+                                                            $icon = 'bi bi-robot';
+                                                        } elseif (strpos($name, 'Entertainment') !== false) {
+                                                            $icon = 'bi bi-film';
+                                                        } elseif (strpos($name, 'Art') !== false) {
+                                                            $icon = 'bi bi-palette';
+                                                        } elseif (strpos($name, 'History') !== false) {
+                                                            $icon = 'bi bi-hourglass';
+                                                            }
                                                         ?>
                                                         <i class="<?= $icon ?>"></i>
                                                     </div>

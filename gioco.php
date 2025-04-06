@@ -69,26 +69,6 @@ $enigma = $_SESSION['enigma_api'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $lang['play_game_title'] ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .option-item { 
-            transition: all 0.2s; 
-            cursor: pointer;
-            padding: 12px 15px;
-            margin-bottom: 8px;
-            border: 1px solid #dee2e6;
-            border-radius: 5px;
-        }
-        .option-item:hover { 
-            background-color: #f8f9fa;
-            border-color: #adb5bd;
-        }
-        .progress-container {
-            margin-bottom: 20px;
-        }
-        .category-badge {
-            font-size: 0.9rem;
-        }
-    </style>
 </head>
 <body class="bg-light">
     <div class="container py-4">

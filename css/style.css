@@ -297,4 +297,24 @@ footer {
         font-size: 1rem;
     }
 }
+
+.option-item { 
+    transition: all 0.2s; 
+    cursor: pointer;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+}
+.option-item:hover { 
+    background-color: #f8f9fa;
+    border-color: #adb5bd;
+}
+.progress-container {
+    margin-bottom: 20px;
+}
+.category-badge {
+    font-size: 0.9rem;
+}
+
 }
