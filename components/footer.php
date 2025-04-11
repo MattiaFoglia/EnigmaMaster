@@ -5,36 +5,55 @@
  * @package Views
  * @author Mattia Foglia
  * @since 2025-03-15
- * @version 1.1.0
+ * @version 1.2.0
  * @link https://getbootstrap.com/docs/5.3/components/footer/
  */
 ?>
-<footer class="bg-dark text-white py-4 mt-5">
+<footer class="bg-dark text-white py-5">
     <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h5>EnigmaMaster</h5>
-                <p class="mb-0"><?= $lang['game_description'] ?></p>
+        <div class="row g-4">
+            <div class="col-lg-5">
+                <h3 class="h5 mb-3">
+                    <i class="bi bi-joystick me-2"></i>EnigmaMaster
+                </h3>
+                <p class="text-secondary mb-4"><?= $lang['game_description'] ?></p>
+                <div class="d-flex gap-3">
+                    <a href="#" class="text-white hover-scale" data-bs-toggle="tooltip" title="Twitter">
+                        <i class="bi bi-twitter fs-5"></i>
+                    </a>
+                    <a href="#" class="text-white hover-scale" data-bs-toggle="tooltip" title="Facebook">
+                        <i class="bi bi-facebook fs-5"></i>
+                    </a>
+                    <a href="#" class="text-white hover-scale" data-bs-toggle="tooltip" title="Instagram">
+                        <i class="bi bi-instagram fs-5"></i>
+                    </a>
+                </div>
             </div>
-            <div class="col-md-3">
-                <h5><?= $lang['links'] ?></h5>
+            
+            <div class="col-lg-3 col-md-6">
+                <h5 class="h6 mb-3"><?= $lang['links'] ?></h5>
                 <ul class="list-unstyled">
-                    <li><a href="index.php" class="text-white"><?= $lang['home'] ?></a></li>
-                    <li><a href="leaderboard.php" class="text-white"><?= $lang['leaderboard'] ?></a></li>
-                    <li><a href="info.php" class="text-white"><?= $lang['information'] ?></a></li>
+                    <li class="mb-2"><a href="index.php" class="text-secondary hover-text-white"><?= $lang['home'] ?></a></li>
+                    <li class="mb-2"><a href="leaderboard.php" class="text-secondary hover-text-white"><?= $lang['leaderboard'] ?></a></li>
+                    <li class="mb-2"><a href="info.php" class="text-secondary hover-text-white"><?= $lang['information'] ?></a></li>
                 </ul>
             </div>
-            <div class="col-md-3">
-                <h5><?= $lang['language'] ?></h5>
-                <div class="btn-group">
-                    <a href="language.php?lang=it" class="btn btn-sm btn-outline-light <?= $_SESSION['lang'] === 'it' ? 'active' : '' ?>">Italiano</a>
-                    <a href="language.php?lang=eng" class="btn btn-sm btn-outline-light <?= $_SESSION['lang'] === 'eng' ? 'active' : '' ?>">English</a>
+            
+            <div class="col-lg-4 col-md-6">
+                <h5 class="h6 mb-3"><?= $lang['language'] ?></h5>
+                <div class="d-flex gap-2">
+                    <a href="language.php?lang=it" class="btn btn-outline-light btn-sm flex-grow-1 <?= $_SESSION['lang'] === 'it' ? 'active' : '' ?>">
+                        <i class="bi bi-translate me-1"></i> Italiano
+                    </a>
+                    <a href="language.php?lang=eng" class="btn btn-outline-light btn-sm flex-grow-1 <?= $_SESSION['lang'] === 'eng' ? 'active' : '' ?>">
+                        <i class="bi bi-globe me-1"></i> English
+                    </a>
                 </div>
             </div>
         </div>
-        <hr class="my-4">
-        <div class="text-center">
-            <p class="mb-0">&copy; 2025 EnigmaMaster. <?= $lang['all_rights_reserved'] ?></p>
+        
+        <div class="text-center pt-4 mt-3 border-top border-secondary">
+            <p class="small mb-0">&copy; 2025 EnigmaMaster. <?= $lang['all_rights_reserved'] ?></p>
         </div>
     </div>
 </footer>

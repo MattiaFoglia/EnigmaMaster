@@ -90,5 +90,6 @@ $lang = [
     'all_rights_reserved' => 'Tutti i diritti riservati',
     'links' => 'Collegamenti',
     'language' => 'Lingua',
+
 ];
 ?>

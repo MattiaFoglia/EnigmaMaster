@@ -20,12 +20,6 @@ if (isset($_SESSION['utente_id'])) {
 $language = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'it';
 include("lang/lang_$language.php");
 
-
-/**
- * Processa il form di login quando inviato
- * 
- * @throws mysqli_sql_exception Se ci sono errori nel database
- */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];
@@ -41,7 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['utente_id'] = $row['id'];
             $_SESSION['nome'] = $row['nome'];
             $_SESSION['punteggio'] = $row['punteggio'];
-            
             header("Location: index.php");
             exit();
         } else {
@@ -54,46 +47,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <!DOCTYPE html>
-<html lang="<?= $language ?>">
+<html lang="<?= $language ?>" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $lang['login'] ?> - EnigmaMaster</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100 bg-dark text-light">
     <?php include 'components/navbar.php'; ?>
 
-    <main class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card shadow">
-                    <div class="card-header bg-primary text-white">
-                        <h2 class="mb-0"><?= $lang['login'] ?></h2>
-                    </div>
-                    <div class="card-body">
-                        <?php if (isset($_SESSION['error'])): ?>
-                            <div class="alert alert-danger">
-                                <?= $_SESSION['error'] ?>
-                            </div>
-                            <?php unset($_SESSION['error']); ?>
-                        <?php endif; ?>
+    <main class="flex-grow-1 d-flex align-items-center py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="card bg-dark border-primary shadow-lg">
+                        <div class="card-header bg-primary text-white">
+                            <h2 class="mb-0 text-center">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>
+                                <?= $lang['login'] ?>
+                            </h2>
+                        </div>
+                        <div class="card-body p-4 p-md-5">
+                            <?php if (isset($_SESSION['error'])): ?>
+                                <div class="alert alert-danger">
+                                    <?= $_SESSION['error'] ?>
+                                </div>
+                                <?php unset($_SESSION['error']); ?>
+                            <?php endif; ?>
 
-                        <form method="POST">
-                            <div class="mb-3">
-                                <label for="email" class="form-label"><?= $lang['login_email'] ?></label>
-                                <input type="email" class="form-control" id="email" name="email" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label"><?= $lang['login_password'] ?></label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100"><?= $lang['login_button'] ?></button>
-                        </form>
+                            <form method="POST">
+                                <div class="mb-4">
+                                    <label for="email" class="form-label"><?= $lang['login_email'] ?></label>
+                                    <input type="email" class="form-control bg-dark text-light border-secondary" 
+                                           id="email" name="email" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="password" class="form-label"><?= $lang['login_password'] ?></label>
+                                    <input type="password" class="form-control bg-dark text-light border-secondary" 
+                                           id="password" name="password" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 py-2">
+                                    <?= $lang['login_button'] ?>
+                                </button>
+                            </form>
 
-                        <div class="mt-3 text-center">
-                            <a href="register.php"><?= $lang['no_account'] ?></a>
+                            <div class="mt-4 pt-3 text-center border-top border-secondary">
+                                <p class="mb-0"><?= $lang['no_account'] ?>
+                                    <a href="register.php" class="text-primary">
+                                        <?= $lang['register'] ?>
+                                    </a>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -102,7 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </main>
 
     <?php include 'components/footer.php'; ?>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 <?php $conn->close(); ?>
