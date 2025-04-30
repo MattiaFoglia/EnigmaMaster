@@ -87,7 +87,6 @@ $lang = [
     'name' => 'Nome',
     'email' => 'Email',
     'password' => 'Password',
-    'all_rights_reserved' => 'Tutti i diritti riservati',
     'links' => 'Collegamenti',
     'language' => 'Lingua',
 
