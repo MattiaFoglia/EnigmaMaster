@@ -267,3 +267,9 @@ footer a:hover {
     background: var(--bs-gradient);
     color: white;
 }
+
+/*Leaderboard*/
+
+.bg-gold { background-color: gold; color: black; }
+.bg-silver { background-color: silver; color: black; }
+.bg-bronze { background-color: #cd7f32; color: white; }

@@ -59,21 +59,27 @@
 
                 <!-- Menu utente -->
                 <?php if (isset($_SESSION['utente_id'])): ?>
-                    <div class="dropdown">
+                     <div class="dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
                             <div class="avatar-sm me-2 bg-primary">
                                 <?= strtoupper(substr(htmlspecialchars($_SESSION['nome']), 0, 1)) ?>
                             </div>
                             <span class="d-none d-lg-inline"><?= htmlspecialchars($_SESSION['nome']) ?></span>
                         </a>
+                    
                         <ul class="dropdown-menu dropdown-menu-end">
+                        <!--
                             <li><a class="dropdown-item" href="profile.php"><i class="bi bi-person me-2"></i> <?= $lang['profile'] ?></a></li>
                             <li><a class="dropdown-item" href="settings.php"><i class="bi bi-gear me-2"></i> <?= $lang['settings'] ?></a></li>
                             <li><hr class="dropdown-divider"></li>
+                         -->
                             <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right me-2"></i> <?= $lang['logout'] ?></a></li>
                         </ul>
                     </div>
-                <?php else: ?>
+                   
+                
+                 <?php else: ?> 
+                    
                     <a href="login.php" class="btn btn-outline-light btn-sm me-2">
                         <i class="bi bi-box-arrow-in-right me-1"></i>
                         <span class="d-none d-sm-inline"><?= $lang['login'] ?></span>

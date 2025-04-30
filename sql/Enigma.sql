@@ -1,4 +1,6 @@
-USE my_enigmamaster0;
+DROP DATABASE IF EXISTS enigmi;
+CREATE DATABASE enigmi;
+USE enigmi;
 
 -- Tabella Utenti
 CREATE TABLE utenti (
@@ -21,19 +23,6 @@ CREATE TABLE enigmi (
     data_fine DATETIME NOT NULL,
     creata_da INT NOT NULL,
     FOREIGN KEY (creata_da) REFERENCES utenti(id) ON DELETE CASCADE
-);
-
--- Tabella Tentativi (memorizza le risposte degli utenti)
-CREATE TABLE tentativi (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    utente_id INT,
-    enigma_id INT NOT NULL,
-    risposta VARCHAR(255) NOT NULL,
-    esito BOOLEAN NOT NULL, -- 1 = corretto, 0 = sbagliato
-    tempo_impiegato INT, -- Tempo in secondi
-    data_tentativo TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (utente_id) REFERENCES utenti(id) ON DELETE CASCADE,
-    FOREIGN KEY (enigma_id) REFERENCES enigmi(id) ON DELETE CASCADE
 );
 
 -- Tabella Leaderboard (classifica dei migliori giocatori)
