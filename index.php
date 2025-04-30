@@ -24,18 +24,18 @@ include("lang/lang_$language.php");
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100 bg-dark text-light">
     <?php include 'components/navbar.php'; ?>
 
     <main class="container my-5 flex-grow-1">
         <div class="row justify-content-center">
             <div class="col-lg-10 col-xl-8">
-                <div class="card shadow-lg border-0 animate__animated animate__fadeIn">
+              <div class="card bg-dark text-light shadow-lg border-0 animate__animated animate__fadeIn">
                     <div class="card-header text-center py-4">
                         <h1 class="display-4 fw-bold mb-0"><?= $lang['welcome'] ?></h1>
                     </div>
                     <div class="card-body p-5">
-                        <p class="lead text-center text-muted mb-5"><?= $lang['challenge'] ?></p>
+                        <p class="lead text-center text-light  mb-5"><?= $lang['challenge'] ?></p>
                         
                         <div class="d-flex justify-content-center gap-4 flex-wrap">
                             <?php if (isset($_SESSION['utente_id'])): ?>
