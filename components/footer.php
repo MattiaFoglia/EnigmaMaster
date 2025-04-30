@@ -53,7 +53,7 @@
         </div>
         
         <div class="text-center pt-4 mt-3 border-top border-secondary">
-            <p class="small mb-0">&copy; EnigmaMaster.</p>
+            <p class="small mb-0">EnigmaMaster</p>
         </div>
     </div>
 </footer>
