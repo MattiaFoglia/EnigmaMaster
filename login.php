@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];
 
-    $sql = "SELECT id, nome, email, password, punteggio FROM utenti WHERE email = ?";
+    $sql = "SELECT id, nome, email, password, punteggio, is_admin FROM utenti WHERE email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -35,6 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['utente_id'] = $row['id'];
             $_SESSION['nome'] = $row['nome'];
             $_SESSION['punteggio'] = $row['punteggio'];
+            $_SESSION['is_admin'] = (bool)$row['is_admin'];
+
             header("Location: index.php");
             exit();
         } else {

@@ -18,7 +18,7 @@
 $host = "localhost";
 $user = "root"; 
 $password = ""; 
-$dbname = "Enigmi";
+$dbname = "enigmi";
 
 /**
  * Connessione al database MySQL

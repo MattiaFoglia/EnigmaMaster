@@ -43,6 +43,16 @@
                         <?= $lang['information'] ?>
                     </a>
                 </li>
+
+                <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']): ?>
+                <li class="nav-item">
+                    <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) === 'admin.php') ? 'active' : '' ?>" 
+                       href="admin.php">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        <?= $lang['admin_panel'] ?? 'Admin' ?>
+                    </a>
+                </li>
+                <?php endif; ?>
             </ul>
 
             <!-- Controlli lato destro -->

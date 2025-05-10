@@ -36,6 +36,14 @@
                     <li class="mb-2"><a href="index.php" class="text-secondary hover-text-white"><?= $lang['home'] ?></a></li>
                     <li class="mb-2"><a href="leaderboard.php" class="text-secondary hover-text-white"><?= $lang['leaderboard'] ?></a></li>
                     <li class="mb-2"><a href="info.php" class="text-secondary hover-text-white"><?= $lang['information'] ?></a></li>
+                <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']): ?>
+                <li class="mb-2">
+                    <a <?= (basename($_SERVER['PHP_SELF']) === 'admin.php') ? 'active' : '' ?>" 
+                       href="admin.php">
+                        <?= $lang['admin_panel'] ?? 'Admin' ?>
+                    </a>
+                </li>
+                <?php endif; ?>
                 </ul>
             </div>
             

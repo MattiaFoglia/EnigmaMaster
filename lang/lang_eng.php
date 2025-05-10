@@ -90,5 +90,11 @@ $lang = [
     'links' => 'Links',
     'language' => 'Language',
 
+    // Admin
+    'admin_panel' => "Admin Panel",
+    'user_management' => "User Management",
+    'actions' => "Actions",
+    'confirm_delete' => "Are you sure you want to delete this user?",
+
 ];
 ?>
