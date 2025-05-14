@@ -123,8 +123,8 @@
                  </div>
  
                  <div class="card-body">
-                     <!-- Question -->
-                     <div class="mb-4 p-4 bg-dark border border-secondary rounded">
+
+                 <div class="mb-4 p-4 bg-dark border border-secondary rounded">
                          <h4 class="mb-3"><?= htmlspecialchars($enigma['question']) ?></h4>
                          <span class="badge bg-<?= 
                              $enigma['difficulty'] === 'hard' ? 'danger' : 
@@ -135,7 +135,6 @@
                          <p class="mt-2 text-muted"><i class="bi bi-info-circle me-1"></i><?= $lang['select_answer'] ?></p>
                      </div>
  
-                     <!-- Options -->
                      <form method="POST" action="risposta.php">
                          <input type="hidden" name="enigma_id" value="<?= $enigma['id'] ?>">
                          

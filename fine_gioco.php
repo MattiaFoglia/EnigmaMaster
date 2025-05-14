@@ -20,7 +20,10 @@
      $id = $_SESSION['utente_id'];
      $punteggio_nuovo = intval($_SESSION['punteggio']);
  
-     $query = "SELECT punteggio FROM utenti WHERE id = ?";
+     $query = "SELECT l.punteggio 
+          FROM leaderboard l 
+          INNER JOIN utenti u ON l.utente_id = u.id 
+          WHERE u.id = ?";
      if ($stmt = mysqli_prepare($conn, $query)) {
          mysqli_stmt_bind_param($stmt, 'i', $id);
          mysqli_stmt_execute($stmt);

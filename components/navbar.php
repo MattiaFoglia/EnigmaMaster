@@ -78,11 +78,6 @@
                         </a>
                     
                         <ul class="dropdown-menu dropdown-menu-end">
-                        <!--
-                            <li><a class="dropdown-item" href="profile.php"><i class="bi bi-person me-2"></i> <?= $lang['profile'] ?></a></li>
-                            <li><a class="dropdown-item" href="settings.php"><i class="bi bi-gear me-2"></i> <?= $lang['settings'] ?></a></li>
-                            <li><hr class="dropdown-divider"></li>
-                         -->
                             <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right me-2"></i> <?= $lang['logout'] ?></a></li>
                         </ul>
                     </div>

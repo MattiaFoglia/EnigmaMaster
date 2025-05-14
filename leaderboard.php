@@ -12,6 +12,24 @@ session_start();
 $language = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'it';
 include("lang/lang_$language.php");
 include 'config.php';
+
+// Verifica la connessione
+if (!$conn) {
+    die('Errore di connessione: ' . mysqli_connect_error());
+}
+
+$query = "
+    SELECT u.nome, COALESCE(l.punteggio, 0) AS punteggio
+    FROM utenti u
+    LEFT JOIN leaderboard l ON u.id = l.utente_id
+    ORDER BY punteggio DESC
+    LIMIT 50
+";
+$result = mysqli_query($conn, $query);
+
+if (!$result) {
+    die('Errore nella query: ' . mysqli_error($conn));
+}
 ?>
 
 <!DOCTYPE html>
@@ -48,11 +66,9 @@ include 'config.php';
                             </thead>
                             <tbody>
                                 <?php
-                                $query = "SELECT nome, punteggio FROM utenti ORDER BY punteggio DESC LIMIT 50";
-                                $result = mysqli_query($conn, $query);
                                 $posizione = 1;
 
-                                if ($result && mysqli_num_rows($result) > 0):
+                                if (mysqli_num_rows($result) > 0):
                                     while ($row = mysqli_fetch_assoc($result)):
                                         $highlight = isset($_SESSION['utente_id']) && $row['nome'] === $_SESSION['nome'] ? 'bg-primary bg-opacity-25' : '';
                                 ?>

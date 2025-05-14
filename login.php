@@ -24,7 +24,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];
 
-    $sql = "SELECT id, nome, email, password, punteggio, is_admin FROM utenti WHERE email = ?";
+   $sql = "SELECT u.id, u.nome, u.email, u.password, l.punteggio, u.is_admin
+        FROM utenti u
+        LEFT JOIN leaderboard l ON u.id = l.utente_id
+        WHERE u.email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);
     $stmt->execute();
